@@ -3,8 +3,10 @@
 - Access to a [Zipline](https://github.com/diced/zipline) instance
 
 # Commands
-**/upload** - allows you to attach any file (100mb or smaller) which will then be uploaded to your Zipline instance.
-**/shorten** - allows you to shorten any link that you provide with the option to set your own vanity for the URL using the `vanity` command option.
+| Command  | Description                                                                                                                           |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| /upload  | allows you to attach any file (100mb or smaller) which will then be uploaded to your Zipline instance.                                |
+| /shorten | allows you to shorten any link that you provide with the option to set your own vanity for the URL using the `vanity` command option. |
 
 # How to use
 1. Clone the repo by either running `git clone https://github.com/wraithy/zipline-discord-bot` in your terminal or via the "Code" dropdown button.
