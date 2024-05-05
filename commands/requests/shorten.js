@@ -13,11 +13,7 @@ module.exports = {
         const url = interaction.options.getString("url", true);
         const vanity = interaction.options.getString("vanity");
 
-        if (PRIVATE_SHORTEN === "true") {
-            await interaction.deferReply({ ephemeral: true });
-        } else {
-            await interaction.deferReply();
-        }
+        await interaction.deferReply({ ephemeral: PRIVATE_SHORTEN === "true" ? true : false });
 
         if (!url || (!url.startsWith("https://") && !url.startsWith("http://"))) {
             embed.setDescription("❌ Please provide a vaild URL to shorten.");

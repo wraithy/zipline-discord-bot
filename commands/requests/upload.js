@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { DOMAIN, SSL_ENABLED, ZIPLINE_TOKEN, PRIVATE_UPLOADS, CHUNKING_ENABLED, CHUNK_SIZE_IN_MB, FILE_SIZE_LIMIT_IN_MB } = process.env;
+const { DOMAIN, SSL_ENABLED, ZIPLINE_TOKEN, PRIVATE_UPLOADS, FILE_NAME_FORMAT, CHUNKING_ENABLED, CHUNK_SIZE_IN_MB, FILE_SIZE_LIMIT_IN_MB } = process.env;
 const axios = require("axios");
 const FormData = require("form-data");
 const fs = require("fs");
@@ -20,11 +20,7 @@ module.exports = {
             fs.mkdirSync(path.dirname(filePath), { recursive: true });
         }
 
-        if (PRIVATE_UPLOADS === "true") {
-            await interaction.deferReply({ ephemeral: true });
-        } else {
-            await interaction.deferReply();
-        }
+        await interaction.deferReply({ ephemeral: PRIVATE_UPLOADS === "true" ? true : false });
 
         try {
             if (attachment.size > 95 * 1024 * 1024 && CHUNKING_ENABLED === "false") {
@@ -61,6 +57,7 @@ module.exports = {
                     headers: {
                         Authorization: ZIPLINE_TOKEN,
                         "content-type": "multipart/form-data",
+                        Format: FILE_NAME_FORMAT || "random",
                     },
                 });
 
@@ -95,6 +92,7 @@ module.exports = {
                             headers: {
                                 Authorization: process.env.ZIPLINE_TOKEN,
                                 "Content-Type": "multipart/form-data",
+                                Format: FILE_NAME_FORMAT || "random",
                                 "Content-Range": `bytes ${start}-${end - 1}/${attachment.size}`,
                                 "X-Zipline-Partial-Filename": fileName,
                                 "X-Zipline-Partial-Lastchunk": i === 0 ? "true" : "false",
